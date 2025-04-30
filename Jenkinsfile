@@ -15,7 +15,14 @@ pipeline {
 
         stage('Run Shell Script') {
             steps {
-                bat 'script.bat'
+                bat '''
+                if exist script.bat (
+                    call script.bat
+                ) else (
+                    echo script.bat not found!
+                    exit /b 1
+                )
+                '''
             }
         }
 
@@ -29,9 +36,9 @@ pipeline {
         stage('Print Environment Variables') {
             steps {
                 bat '''
-                    echo Project: %PROJECT_NAME%
-                    echo Author: %AUTHOR%
-                    set
+                echo Project: %PROJECT_NAME%
+                echo Author: %AUTHOR%
+                set
                 '''
             }
         }
