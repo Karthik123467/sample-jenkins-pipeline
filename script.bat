@@ -1,2 +1,2 @@
-#!/bin/bash
-echo  "This is the script running from Jenkins"
+@echo off
+echo This is the script running from Jenkins
