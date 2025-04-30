@@ -13,22 +13,23 @@ pipeline {
             }
         }
 
-        stage('Run Shell Script') {
-            steps {
-                bat '''
-                if exist script.bat (
-                    call script.bat
-                ) else (
-                    echo script.bat not found!
-                    exit /b 1
-                )
-                '''
+        stage('Run Shell Scripts in Parallel') {
+            parallel {
+                stage('Run Script 1') {
+                    steps {
+                        bat 'script1.bat'
+                    }
+                }
+                stage('Run Script 2') {
+                    steps {
+                        bat 'script2.bat'
+                    }
+                }
             }
         }
 
         stage('Print Directory Contents') {
             steps {
-                bat 'cd'
                 bat 'dir'
             }
         }
@@ -36,9 +37,9 @@ pipeline {
         stage('Print Environment Variables') {
             steps {
                 bat '''
-                echo Project: %PROJECT_NAME%
-                echo Author: %AUTHOR%
-                set
+                    echo Project: %PROJECT_NAME%
+                    echo Author: %AUTHOR%
+                    set
                 '''
             }
         }
